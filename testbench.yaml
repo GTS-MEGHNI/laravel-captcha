@@ -1,0 +1,13 @@
+laravel: '@testbench'
+
+env:
+  # Testbench defaults to the database cache against an in-memory SQLite database
+  # that has no cache table. Challenges need a store that survives between the
+  # issue request and the image request.
+  - CACHE_STORE=file
+
+providers:
+  # Registered here rather than left to package discovery, so `testbench` commands
+  # work without a discovery pass. Pest reads TestCase::getPackageProviders() and
+  # ignores this list, so the provider is registered exactly once either way.
+  - GtsMeghni\LaravelCaptcha\CaptchaServiceProvider
