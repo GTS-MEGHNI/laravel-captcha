@@ -20,12 +20,12 @@ class CaptchaException extends RuntimeException
 
     public static function noFonts(string $path): self
     {
-        return new self("No .ttf fonts were found in [{$path}]. Set captcha.fonts_path to a directory containing at least one font.");
+        return new self("No .ttf fonts were found in [{$path}]. Set captcha.fonts_path to a directory containing at least one font, or to null for the fonts bundled with the package.");
     }
 
     public static function noBackgrounds(string $path): self
     {
-        return new self("No background images were found in [{$path}]. Add images or set the background mode to [generated].");
+        return new self("No background images were found in [{$path}]. Add images, set captcha.backgrounds_path to null for the images bundled with the package, or set the background mode to [generated].");
     }
 
     public static function emptyCharacterPool(): self

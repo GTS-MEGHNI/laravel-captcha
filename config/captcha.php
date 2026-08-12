@@ -241,12 +241,16 @@ return [
     | Assets
     |--------------------------------------------------------------------------
     |
-    | Directory scanned for `.ttf` files. The bundled faces are licensed under
-    | OFL, Apache-2.0 and the Ubuntu Font Licence; see resources/fonts/license.
+    | Directory scanned for `.ttf` files. Leave null to use the faces bundled
+    | with the package, licensed under OFL, Apache-2.0 and the Ubuntu Font
+    | Licence; see resources/fonts/license.
+    |
+    | Set an absolute path to use your own. Avoid resolving it against this
+    | file: once published, __DIR__ is the application's config directory.
     |
     */
 
-    'fonts_path' => __DIR__.'/../resources/fonts',
+    'fonts_path' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -254,10 +258,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | Directory scanned when a preset sets its background mode to "images".
+    | Leave null to use the images bundled with the package.
     |
     */
 
-    'backgrounds_path' => __DIR__.'/../resources/backgrounds',
+    'backgrounds_path' => null,
 
     /*
     |--------------------------------------------------------------------------

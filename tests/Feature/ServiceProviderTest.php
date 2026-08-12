@@ -42,6 +42,43 @@ it('registers the preview command', function () {
 });
 
 it('ships the fonts and backgrounds it points at', function () {
-    expect(glob(config('captcha.fonts_path').'/*.ttf'))->not->toBeEmpty()
-        ->and(glob(config('captcha.backgrounds_path').'/*.png'))->not->toBeEmpty();
+    expect(glob(fontsPath().'/*.ttf'))->not->toBeEmpty()
+        ->and(glob(backgroundsPath().'/*.png'))->not->toBeEmpty();
+});
+
+/*
+| The asset paths default to null and are resolved by the provider, whose __DIR__
+| stays inside the package. Resolving them in config/captcha.php instead pointed
+| at the application's resources/ directory once that file was published.
+|
+| See https://github.com/GTS-MEGHNI/laravel-captcha/issues/1.
+*/
+it('defaults the asset paths to null so a published config cannot re-point them', function () {
+    expect(config('captcha.fonts_path'))->toBeNull()
+        ->and(config('captcha.backgrounds_path'))->toBeNull();
+});
+
+it('renders with the bundled assets when the config is published', function () {
+    $published = base_path('config');
+
+    config([
+        'captcha.fonts_path' => null,
+        'captcha.backgrounds_path' => null,
+        'captcha.default.background.mode' => 'images',
+    ]);
+
+    expect(fontsPath())->not->toStartWith($published)
+        ->and(backgroundsPath())->not->toStartWith($published);
+
+    $captcha = app(Captcha::class);
+
+    expect($captcha->image($captcha->create()->token))->not->toBeNull();
+});
+
+it('still honours an explicit asset path', function () {
+    $fonts = __DIR__.'/../../resources/fonts';
+
+    config(['captcha.fonts_path' => $fonts]);
+
+    expect(fontsPath())->toBe($fonts);
 });
