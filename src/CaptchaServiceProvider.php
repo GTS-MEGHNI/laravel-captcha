@@ -44,14 +44,14 @@ class CaptchaServiceProvider extends ServiceProvider
         $this->app->singleton(BackgroundPainter::class, fn (Application $app): BackgroundPainter => new BackgroundPainter(
             $app->make(Filesystem::class),
             $app->make(ImageManager::class),
-            Value::string($app->make(Config::class)->get('captcha.backgrounds_path'), __DIR__.'/../resources/backgrounds'),
+            Value::nullableString($app->make(Config::class)->get('captcha.backgrounds_path')) ?? __DIR__.'/../resources/backgrounds',
         ));
 
         $this->app->singleton(Renderer::class, fn (Application $app): InterventionRenderer => new InterventionRenderer(
             $app->make(ImageManager::class),
             $app->make(BackgroundPainter::class),
             $app->make(Filesystem::class),
-            Value::string($app->make(Config::class)->get('captcha.fonts_path'), __DIR__.'/../resources/fonts'),
+            Value::nullableString($app->make(Config::class)->get('captcha.fonts_path')) ?? __DIR__.'/../resources/fonts',
         ));
 
         $this->app->singleton(ChallengeStore::class, function (Application $app): ChallengeStore {

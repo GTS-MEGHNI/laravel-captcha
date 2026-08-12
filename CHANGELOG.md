@@ -1,6 +1,26 @@
 # Release Notes
 
-## [Unreleased](https://github.com/GTS-MEGHNI/laravel-captcha/compare/v1.0.0...main)
+## [Unreleased](https://github.com/GTS-MEGHNI/laravel-captcha/compare/v1.0.1...main)
+
+## [v1.0.1](https://github.com/GTS-MEGHNI/laravel-captcha/releases/tag/v1.0.1) - 2026-08-12
+
+### Fixed
+
+- Publishing the config no longer breaks rendering. `fonts_path` and
+  `backgrounds_path` were resolved with `__DIR__` in `config/captcha.php`, so a
+  published copy pointed at the application's `resources/` directory and every
+  render failed with `No background images were found in
+  [.../config/../resources/backgrounds]`, then with the matching font error once
+  the background mode was changed. Both keys now default to `null` and are
+  resolved by the service provider, which is never published.
+  ([#1](https://github.com/GTS-MEGHNI/laravel-captcha/issues/1))
+
+### Notes
+
+- If you published `config/captcha.php` under v1.0.0, set `fonts_path` and
+  `backgrounds_path` to `null` to use the bundled assets, or to an absolute path
+  of your own. Do not resolve them against the config file. Configs that already
+  point at a directory you control are unaffected.
 
 ## [v1.0.0](https://github.com/GTS-MEGHNI/laravel-captcha/releases/tag/v1.0.0) - 2026-08-11
 
